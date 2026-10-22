@@ -23,6 +23,7 @@ export interface CartItem {
 export interface LastOrder {
   items: CartItem[];
   totalCents: number;
+  orderId: string;
 }
 
 interface CartContextValue {
@@ -32,8 +33,8 @@ interface CartContextValue {
   updateQuantity: (productId: string, quantity: number) => void;
   totalCents: number;
   itemCount: number;
-  /** Sparar nuvarande varukorg som lastOrder och tömmer varukorgen. Anropa innan redirect till tacksida. */
-  submitOrder: () => void;
+  /** Sparar nuvarande varukorg som lastOrder och tömmer varukorgen. Anropa efter lyckat API-svar, innan redirect till tacksida. */
+  submitOrder: (orderId: string) => void;
   /** Senast genomförda beställning (visas på tacksidan). Rensas efter visning. */
   lastOrder: LastOrder | null;
   clearLastOrder: () => void;
@@ -84,11 +85,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [items]
   );
 
-  const submitOrder = useCallback(() => {
-    if (items.length === 0) return;
-    setLastOrder({ items: [...items], totalCents });
-    setItems([]);
-  }, [items, totalCents]);
+  const submitOrder = useCallback(
+    (orderId: string) => {
+      if (items.length === 0) return;
+      setLastOrder({ items: [...items], totalCents, orderId });
+      setItems([]);
+    },
+    [items, totalCents],
+  );
 
   const clearLastOrder = useCallback(() => setLastOrder(null), []);
 

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { CartSummary } from "@/components/CartSummary";
 import { SiteHeader } from "@/components/SiteHeader";
+import { buildCreateOrderInput, postCreateOrder } from "@/lib/checkout-order";
 import { useState, FormEvent } from "react";
 
 function formatPrice(cents: number) {
@@ -27,12 +28,31 @@ export default function KassaPage() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [errors, setErrors] = useState<string[]>([]);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (itemCount === 0) return;
     setSubmitting(true);
-    submitOrder();
+    setErrors([]);
+
+    const result = await postCreateOrder(
+      buildCreateOrderInput({
+        customerName: name,
+        customerEmail: email,
+        customerAddress: address,
+        customerPhone: phone,
+        items,
+      }),
+    );
+
+    if (!result.ok) {
+      setErrors(result.errors);
+      setSubmitting(false);
+      return;
+    }
+
+    submitOrder(result.order.id);
     router.push("/kassa/tack");
   };
 
@@ -146,9 +166,22 @@ export default function KassaPage() {
             </div>
 
             <p className="text-xs text-gray-500">
-              Betalning och leveransmetod läggs till i nästa steg. Denna sida sparar ännu inte
-              beställningen i databasen – det kommer när backend för beställningar är kopplat.
+              Betalning och leveransmetod läggs till i ett senare steg. Beställningen sparas när du
+              klickar på Slutför beställning.
             </p>
+
+            {errors.length > 0 && (
+              <div
+                role="alert"
+                className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800"
+              >
+                <ul className="list-disc pl-4 space-y-1">
+                  {errors.map((error) => (
+                    <li key={error}>{error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <button
               type="submit"
