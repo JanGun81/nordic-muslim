@@ -3,13 +3,33 @@
 @tailwind utilities;
 
 :root {
-  --accent: #b53a2e;
-  --accent-light: #d45a4a;
-  --accent-dark: #8b2c22;
-  --warm-bg: #fef9f6;
-  --earth: #8b6914;
+  --accent: #3f3530;
+  --accent-light: #c9ab6e;
+  --accent-dark: #342c28;
+  --warm-bg: #faf6ee;
+  --earth: #8a7348;
+  --panel: #3f3530;
+  --panel-deep: #342c28;
+  --on-panel: #f5f0e8;
+  --on-panel-muted: #d4c8b0;
 }
 
 body {
-  @apply bg-warm-50 text-gray-800 antialiased;
+  @apply bg-warm-50 antialiased;
+  color: #3a3226;
+}
+
+.nm-panel {
+  background: linear-gradient(155deg, #3f3530 0%, #342c28 100%);
+  color: #f5f0e8;
+}
+
+.nm-btn {
+  background: #3f3530;
+  color: #f5f0e8;
+  border: 1px solid #c9ab6e;
+}
+
+.nm-btn:hover {
+  background: #342c28;
 }

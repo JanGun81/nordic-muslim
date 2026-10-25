@@ -62,7 +62,7 @@ export function ProductGrid({ categorySlug }: ProductGridProps) {
         <p className="mb-4">Inga produkter i den här kategorin just nu.</p>
         <Link
           href="/produkter"
-          className="inline-flex rounded-lg bg-accent px-4 py-2 text-white text-sm font-medium hover:bg-accent-dark"
+          className="nm-btn inline-flex rounded-lg px-4 py-2 text-sm font-medium"
         >
           Visa alla produkter
         </Link>

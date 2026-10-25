@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { CartSummary } from "@/components/CartSummary";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { buildCreateOrderInput, postCreateOrder } from "@/lib/checkout-order";
 import { useState, FormEvent } from "react";
 
@@ -68,11 +69,12 @@ export default function KassaPage() {
           <p className="text-gray-600 mb-4">Din varukorg är tom.</p>
           <Link
             href="/produkter"
-            className="inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2 text-white font-medium hover:bg-accent-dark"
+            className="nm-btn inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium"
           >
             Se produkter
           </Link>
         </main>
+        <SiteFooter />
       </div>
     );
   }
@@ -186,7 +188,7 @@ export default function KassaPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-lg bg-accent text-white py-3 text-base font-semibold hover:bg-accent-dark disabled:opacity-70 transition-colors"
+              className="nm-btn w-full rounded-lg py-3 text-base font-semibold disabled:opacity-70 transition-colors"
             >
               {submitting ? "Skickar …" : "Slutför beställning"}
             </button>
@@ -197,6 +199,7 @@ export default function KassaPage() {
           </div>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

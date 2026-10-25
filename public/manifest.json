@@ -4,8 +4,8 @@
   "description": "Muslimska kläder för alla tillfällen – Baati, Dirac, Macwiis, Khamis, klänningar och mer.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fef9f6",
-  "theme_color": "#b53a2e",
+  "background_color": "#faf6ee",
+  "theme_color": "#3f3530",
   "orientation": "portrait-primary",
   "icons": [
     {

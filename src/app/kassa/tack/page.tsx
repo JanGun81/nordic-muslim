@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 function formatPrice(cents: number) {
   return new Intl.NumberFormat("sv-SE", {
@@ -59,12 +60,13 @@ export default function TackPage() {
 
           <Link
             href="/"
-            className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-3 text-white font-medium hover:bg-accent-dark transition-colors"
+            className="nm-btn inline-flex items-center justify-center rounded-lg px-6 py-3 font-medium transition-colors"
           >
             Tillbaka till startsidan
           </Link>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }
