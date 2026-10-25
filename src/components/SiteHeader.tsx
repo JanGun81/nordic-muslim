@@ -3,6 +3,7 @@
 /**
  * Gemensam sidhuvud: hamburger + utfällbar meny på mindre skärmar (<lg).
  * Från lg och uppåt ligger kategorier i vänsterpanelen (`CategoryNavRail` i layout).
+ * Utseende följer den statiska showroom-sidan: espresso-panel och logotyp.
  */
 
 import Link from "next/link";
@@ -46,7 +47,7 @@ export function SiteHeader({ variant, pageTitle, back }: SiteHeaderProps) {
       <li>
         <Link
           href="/produkter"
-          className="block rounded-lg px-3 py-2 text-white/95 hover:bg-white/10 text-sm"
+          className="block rounded-lg px-3 py-2 text-[#f5f0e8]/95 hover:bg-white/10 text-sm"
           onClick={closeMenu}
         >
           Alla produkter
@@ -56,7 +57,7 @@ export function SiteHeader({ variant, pageTitle, back }: SiteHeaderProps) {
         <li key={c.id}>
           <Link
             href={`/produkter?kategori=${encodeURIComponent(c.slug)}`}
-            className="block rounded-lg px-3 py-2 text-white/95 hover:bg-white/10 text-sm"
+            className="block rounded-lg px-3 py-2 text-[#f5f0e8]/95 hover:bg-white/10 text-sm"
             onClick={closeMenu}
           >
             {c.name}
@@ -66,7 +67,7 @@ export function SiteHeader({ variant, pageTitle, back }: SiteHeaderProps) {
       <li>
         <Link
           href="/bestall"
-          className="block rounded-lg px-3 py-2 text-white/95 hover:bg-white/10 text-sm"
+          className="block rounded-lg px-3 py-2 text-[#f5f0e8]/95 hover:bg-white/10 text-sm"
           onClick={closeMenu}
         >
           Beställ steg för steg
@@ -75,36 +76,59 @@ export function SiteHeader({ variant, pageTitle, back }: SiteHeaderProps) {
     </ul>
   );
 
+  const isHome = variant === "home";
+
   return (
-    <header className="bg-accent text-white shadow-soft sticky top-0 z-30">
-      <div className="container mx-auto px-4 py-3 md:py-4">
-        <div className="flex items-center justify-between gap-3">
+    <header
+      className={`nm-panel border-b border-[rgba(201,171,110,0.35)] shadow-soft z-30 ${
+        isHome ? "" : "sticky top-0"
+      }`}
+    >
+      <div className={`container mx-auto px-4 ${isHome ? "py-8 md:py-10" : "py-3 md:py-4"}`}>
+        <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1 flex items-center gap-3">
             {back && (
               <Link
                 href={back.href}
-                className="shrink-0 text-white/90 hover:text-white text-sm whitespace-nowrap"
+                className="shrink-0 text-[#d4c8b0] hover:text-[#f5f0e8] text-sm whitespace-nowrap"
               >
                 ← {back.label ?? "Tillbaka"}
               </Link>
             )}
-            {variant === "home" ? (
+            {isHome ? (
               <Link href="/" className="block min-w-0">
-                <h1 className="text-xl font-bold md:text-2xl tracking-tight truncate">
-                  Nordic Muslim
-                </h1>
-                <p className="text-xs md:text-sm text-white/80 mt-1 leading-snug">
-                  Baati · Dirac · Macwiis · Khamis · klänningar &amp; mer
+                <p className="m-0 mb-2 text-sm uppercase tracking-[0.06em] text-[#d4c8b0]">
+                  Butik
                 </p>
+                <img
+                  src="/images/nm3.png"
+                  alt="Nordic Muslim"
+                  width={480}
+                  height={160}
+                  className="block h-auto w-[min(100%,22rem)]"
+                  decoding="async"
+                />
               </Link>
             ) : (
-              <h1 className="text-lg font-bold truncate">{pageTitle ?? ""}</h1>
+              <div className="flex min-w-0 items-center gap-3">
+                <Link href="/" className="shrink-0">
+                  <img
+                    src="/images/nm3.png"
+                    alt="Nordic Muslim"
+                    width={180}
+                    height={60}
+                    className="hidden h-8 w-auto sm:block"
+                    decoding="async"
+                  />
+                </Link>
+                <h1 className="text-lg font-bold truncate text-[#f5f0e8]">{pageTitle ?? ""}</h1>
+              </div>
             )}
           </div>
 
           <button
             type="button"
-            className="lg:hidden shrink-0 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/30 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/80"
+            className="lg:hidden shrink-0 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[rgba(201,171,110,0.35)] text-[#f5f0e8] hover:bg-[rgba(201,171,110,0.2)] focus:outline-none focus:ring-2 focus:ring-warm-300"
             aria-expanded={menuOpen}
             aria-controls="site-nav-panel"
             aria-label={menuOpen ? "Stäng meny" : "Öppna meny"}
@@ -117,10 +141,16 @@ export function SiteHeader({ variant, pageTitle, back }: SiteHeaderProps) {
           </button>
         </div>
 
+        {isHome && (
+          <p className="mt-3 max-w-xl text-base text-[#d4c8b0]">
+            Abayas för vardag och fest – enkla modeller, dekor, blomster, guld och mönster.
+          </p>
+        )}
+
         <div
           id="site-nav-panel"
           className={`lg:hidden overflow-hidden transition-[max-height] duration-300 ease-out ${
-            menuOpen ? "max-h-[28rem] mt-3 pt-3 border-t border-white/20" : "max-h-0"
+            menuOpen ? "max-h-[28rem] mt-3 pt-3 border-t border-[rgba(201,171,110,0.35)]" : "max-h-0"
           }`}
           aria-hidden={!menuOpen}
         >
