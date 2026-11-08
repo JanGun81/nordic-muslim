@@ -33,14 +33,29 @@ describe("GET /api/products/[slug]", () => {
       createdAt: new Date("2026-01-01T00:00:00.000Z"),
       updatedAt: new Date("2026-01-01T00:00:00.000Z"),
       category: { id: "cat-1", name: "Dirac", slug: "dirac" },
-      variants: [],
+      variants: [
+        {
+          id: "v1",
+          productId: "p1",
+          style: null,
+          color: "Grön",
+          size: null,
+          material: null,
+          sku: null,
+          priceCents: null,
+          imageUrl: "/images/abaya_green.jpg",
+          inStock: true,
+        },
+      ],
     });
 
     const res = await GET(new Request("http://localhost/api/products/test-dirac"), makeContext("test-dirac"));
     expect(res.status).toBe(200);
-    const json = (await res.json()) as { product: { slug: string; variants: unknown[] } };
+    const json = (await res.json()) as {
+      product: { slug: string; variants: { imageUrl: string | null }[] };
+    };
     expect(json.product.slug).toBe("test-dirac");
-    expect(json.product.variants).toEqual([]);
+    expect(json.product.variants[0]?.imageUrl).toBe("/images/abaya_green.jpg");
   });
 
   it("returnerar demo-produkt när databasen är tom men slug matchar demo", async () => {

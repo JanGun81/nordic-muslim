@@ -133,6 +133,7 @@ export function ProductDetail({ slug }: { slug: string }) {
                 <div className="flex flex-wrap gap-2">
                   {swatches.map((item) => {
                     const active = item.id === selectedId;
+                    const thumbUrl = variantImageUrl(product, item);
                     return (
                       <button
                         key={item.id}
@@ -146,17 +147,17 @@ export function ProductDetail({ slug }: { slug: string }) {
                             : "border-transparent bg-warm-50 hover:bg-warm-100"
                         }`}
                       >
-                        {item.imageUrl && (
-                          <span className="relative block h-16 w-full">
+                        {thumbUrl ? (
+                          <span className="relative block h-16 w-full overflow-hidden rounded-md bg-warm-50">
                             <Image
-                              src={item.imageUrl}
+                              src={thumbUrl}
                               alt=""
                               fill
                               className="object-contain"
                               unoptimized
                             />
                           </span>
-                        )}
+                        ) : null}
                         <span>{item.color}</span>
                       </button>
                     );

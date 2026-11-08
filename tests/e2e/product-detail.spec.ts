@@ -18,6 +18,7 @@ test.describe("Produktdetalj", () => {
       timeout: 20_000,
     });
     await expect(page.getByRole("button", { name: /lägg i varukorg/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /färg brun/i }).locator("img")).toBeVisible();
 
     await page.getByRole("button", { name: /färg grön/i }).click();
     await expect(page.getByRole("img", { name: /grön/i }).first()).toBeVisible();
