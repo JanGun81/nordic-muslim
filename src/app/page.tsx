@@ -1,73 +1,64 @@
 /**
- * Startsida – mobilförst, varm design för Nordic Muslim.
- * Tydlig header, hero, två vägar: wizard ("Börja här") och "Se alla produkter".
+ * Startsida – samma guld/espresso-utseende som den statiska showroom-sidan,
+ * med två vägar in i butiken.
  */
 
 import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex min-h-screen flex-col">
       <SiteHeader variant="home" />
 
-      {/* Hero */}
-      <section className="bg-gradient-to-b from-warm-100 to-warm-50 border-b border-warm-200/60">
-        <div className="container mx-auto px-4 py-8 md:py-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-            Välkommen
-          </h2>
-          <p className="text-gray-700 max-w-xl text-base md:text-lg leading-relaxed">
-            Nordic Muslim samlar muslimska kläder för vardag och fest – baati, dirac,
-            macwiis, khamis, klänningar och mer. Enkelt att beställa, steg för steg
-            eller genom att bläddra fritt i sortimentet.
-          </p>
-        </div>
-      </section>
+      <main className="container mx-auto flex-1 px-4 py-8 md:py-12">
+        <h2 className="mb-2 text-2xl font-bold text-earth-dark md:text-3xl">Välkommen</h2>
+        <p className="mb-8 max-w-xl text-base leading-relaxed text-ink md:text-lg">
+          Nordic Muslim samlar muslimska kläder för vardag och fest – baati, dirac,
+          macwiis, khamis, klänningar och mer. Enkelt att beställa, steg för steg
+          eller genom att bläddra fritt i sortimentet.
+        </p>
 
-      {/* Huvudval: två vägar */}
-      <main className="flex-1 container mx-auto px-4 py-8 md:py-12">
-        <p className="text-sm font-medium text-gray-600 uppercase tracking-wider mb-4">
+        <p className="mb-4 text-sm font-medium uppercase tracking-wider text-ink-muted">
           Så beställer du
         </p>
 
-        <div className="grid gap-6 md:grid-cols-2 max-w-3xl">
-          {/* Primär: Wizard – Börja här */}
+        <div className="grid max-w-3xl gap-6 md:grid-cols-2">
           <Link
             href="/bestall"
-            className="group flex flex-col rounded-2xl bg-white border-2 border-accent shadow-card hover:shadow-soft hover:border-accent-dark transition-all duration-200 overflow-hidden"
+            className="group flex flex-col overflow-hidden rounded-2xl border border-warm-300 bg-[#fffdf7] shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(90,70,35,0.16)]"
           >
-            <div className="bg-accent text-white px-5 py-4">
-              <span className="text-sm font-medium opacity-90">Steg för steg</span>
-              <h3 className="text-xl font-bold mt-1">Börja här</h3>
+            <div className="nm-panel px-5 py-4">
+              <span className="text-sm font-medium text-[#d4c8b0]">Steg för steg</span>
+              <h3 className="mt-1 text-xl font-bold">Börja här</h3>
             </div>
-            <div className="px-5 py-4 flex-1">
-              <p className="text-gray-600 text-sm leading-relaxed">
+            <div className="flex-1 px-5 py-4">
+              <p className="text-sm leading-relaxed text-ink-muted">
                 Välj produkt → storlek → tillbehör → granska → lägg i varukorg.
                 Som att beställa vid en skärm – enkelt och tydligt.
               </p>
-              <span className="inline-flex items-center gap-1 mt-4 text-accent font-semibold text-sm group-hover:gap-2 transition-all">
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-earth group-hover:gap-2 transition-all">
                 Starta beställning
                 <span aria-hidden>→</span>
               </span>
             </div>
           </Link>
 
-          {/* Sekundär: Se alla produkter */}
           <Link
             href="/produkter"
-            className="group flex flex-col rounded-2xl bg-white border-2 border-warm-300 shadow-card hover:shadow-soft hover:border-warm-400 transition-all duration-200 overflow-hidden"
+            className="group flex flex-col overflow-hidden rounded-2xl border border-warm-300 bg-[#fffdf7] shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(90,70,35,0.16)]"
           >
-            <div className="bg-warm-200/80 text-gray-800 px-5 py-4">
-              <span className="text-sm font-medium text-gray-600">Bläddra</span>
-              <h3 className="text-xl font-bold mt-1 text-gray-800">Se alla produkter</h3>
+            <div className="bg-warm-100 px-5 py-4 text-ink">
+              <span className="text-sm font-medium text-ink-muted">Bläddra</span>
+              <h3 className="mt-1 text-xl font-bold text-earth-dark">Se alla produkter</h3>
             </div>
-            <div className="px-5 py-4 flex-1">
-              <p className="text-gray-600 text-sm leading-relaxed">
+            <div className="flex-1 px-5 py-4">
+              <p className="text-sm leading-relaxed text-ink-muted">
                 Utforska hela sortimentet. Filtrera och välj det du vill, lägg i
                 varukorg när du är redo.
               </p>
-              <span className="inline-flex items-center gap-1 mt-4 text-earth font-semibold text-sm group-hover:gap-2 transition-all">
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-earth group-hover:gap-2 transition-all">
                 Öppna katalogen
                 <span aria-hidden>→</span>
               </span>
@@ -75,11 +66,8 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Kategorier – snabborientering */}
-        <section className="mt-12 pt-8 border-t border-warm-200">
-          <h3 className="text-lg font-semibold text-gray-800 mb-3">
-            Populära kategorier
-          </h3>
+        <section className="mt-12 border-t border-warm-200 pt-8">
+          <h3 className="mb-3 text-lg font-semibold text-earth-dark">Populära kategorier</h3>
           <div className="flex flex-wrap gap-2">
             {[
               { name: "Baati", slug: "baatis" },
@@ -91,7 +79,7 @@ export default function HomePage() {
               <Link
                 key={slug}
                 href={`/produkter?kategori=${slug}`}
-                className="px-4 py-2 rounded-full bg-warm-100 text-gray-700 text-sm font-medium border border-warm-200 hover:border-accent hover:text-accent-dark transition-colors"
+                className="rounded-full border border-warm-300 bg-warm-50 px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-earth hover:text-earth-dark"
               >
                 {name}
               </Link>
@@ -100,14 +88,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-warm-200 bg-warm-100 mt-auto">
-        <div className="container mx-auto px-4 py-6">
-          <p className="text-center text-sm text-gray-600">
-            Nordic Muslim – enkel beställning · Mobilförst · PWA
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

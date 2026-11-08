@@ -9,30 +9,36 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Östafrikanskt tema – varma, inbjudande toner
+        // Samma guld/espresso-palett som den statiska showroom-sidan
         accent: {
-          DEFAULT: "#b53a2e",
-          light: "#d45a4a",
-          dark: "#8b2c22",
+          DEFAULT: "#3f3530",
+          light: "#c9ab6e",
+          dark: "#342c28",
         },
         warm: {
-          50: "#fef9f6",
-          100: "#fcf2eb",
-          200: "#f8e4d4",
-          300: "#f0c9a8",
-          400: "#e5a06a",
-          500: "#d97d3a",
-          600: "#c46528",
+          50: "#faf6ee",
+          100: "#f3ead2",
+          200: "#e4d4a8",
+          300: "#c9ab6e",
+          400: "#b8964f",
+          500: "#9a7a3d",
+          600: "#7a5f2e",
         },
         earth: {
-          DEFAULT: "#8b6914",
-          light: "#a8841a",
-          dark: "#6b5010",
+          DEFAULT: "#8a7348",
+          light: "#c9ab6e",
+          dark: "#5c4a32",
         },
+        panel: {
+          DEFAULT: "#3f3530",
+          deep: "#342c28",
+        },
+        ink: "#3a3226",
+        "ink-muted": "#6b5c45",
       },
       boxShadow: {
-        soft: "0 4px 20px rgba(139, 105, 20, 0.08)",
-        card: "0 2px 12px rgba(0,0,0,0.06)",
+        soft: "0 4px 16px rgba(42, 32, 24, 0.22)",
+        card: "0 4px 20px rgba(90, 70, 35, 0.1)",
       },
     },
   },

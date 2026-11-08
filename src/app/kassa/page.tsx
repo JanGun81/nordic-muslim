@@ -10,6 +10,8 @@ import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { CartSummary } from "@/components/CartSummary";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { buildCreateOrderInput, postCreateOrder } from "@/lib/checkout-order";
 import { useState, FormEvent } from "react";
 
 function formatPrice(cents: number) {
@@ -27,12 +29,31 @@ export default function KassaPage() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [errors, setErrors] = useState<string[]>([]);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (itemCount === 0) return;
     setSubmitting(true);
-    submitOrder();
+    setErrors([]);
+
+    const result = await postCreateOrder(
+      buildCreateOrderInput({
+        customerName: name,
+        customerEmail: email,
+        customerAddress: address,
+        customerPhone: phone,
+        items,
+      }),
+    );
+
+    if (!result.ok) {
+      setErrors(result.errors);
+      setSubmitting(false);
+      return;
+    }
+
+    submitOrder(result.order.id);
     router.push("/kassa/tack");
   };
 
@@ -48,11 +69,12 @@ export default function KassaPage() {
           <p className="text-gray-600 mb-4">Din varukorg är tom.</p>
           <Link
             href="/produkter"
-            className="inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2 text-white font-medium hover:bg-accent-dark"
+            className="nm-btn inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium"
           >
             Se produkter
           </Link>
         </main>
+        <SiteFooter />
       </div>
     );
   }
@@ -146,14 +168,27 @@ export default function KassaPage() {
             </div>
 
             <p className="text-xs text-gray-500">
-              Betalning och leveransmetod läggs till i nästa steg. Denna sida sparar ännu inte
-              beställningen i databasen – det kommer när backend för beställningar är kopplat.
+              Betalning och leveransmetod läggs till i ett senare steg. Beställningen sparas när du
+              klickar på Slutför beställning.
             </p>
+
+            {errors.length > 0 && (
+              <div
+                role="alert"
+                className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800"
+              >
+                <ul className="list-disc pl-4 space-y-1">
+                  {errors.map((error) => (
+                    <li key={error}>{error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-lg bg-accent text-white py-3 text-base font-semibold hover:bg-accent-dark disabled:opacity-70 transition-colors"
+              className="nm-btn w-full rounded-lg py-3 text-base font-semibold disabled:opacity-70 transition-colors"
             >
               {submitting ? "Skickar …" : "Slutför beställning"}
             </button>
@@ -164,6 +199,7 @@ export default function KassaPage() {
           </div>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

@@ -4,6 +4,7 @@
  */
 
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default function BestallPage() {
   return (
@@ -26,6 +27,7 @@ export default function BestallPage() {
           </p>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

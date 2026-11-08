@@ -18,8 +18,8 @@ export function CartSummary() {
   }
 
   return (
-    <div className="rounded-xl bg-white border border-warm-200 shadow-soft p-4">
-      <h3 className="font-semibold text-gray-800 mb-2">
+    <div className="rounded-xl border border-warm-300 bg-[#fffdf7] p-4 shadow-card">
+      <h3 className="mb-2 font-semibold text-earth-dark">
         Varukorg ({itemCount} {itemCount === 1 ? "produkt" : "produkter"})
       </h3>
       <ul className="space-y-2 text-sm">
@@ -28,13 +28,13 @@ export function CartSummary() {
             <span className="text-gray-700 truncate">
               {product.name} × {quantity}
             </span>
-            <span className="text-accent font-medium shrink-0">
+            <span className="text-earth font-medium shrink-0">
               {formatPrice(product.priceCents * quantity)}
             </span>
             <button
               type="button"
               onClick={() => removeItem(product.id)}
-              className="text-gray-500 hover:text-accent text-xs shrink-0"
+              className="text-ink-muted hover:text-earth text-xs shrink-0"
               aria-label={`Ta bort ${product.name}`}
             >
               Ta bort
@@ -42,13 +42,13 @@ export function CartSummary() {
           </li>
         ))}
       </ul>
-      <p className="mt-3 pt-3 border-t border-warm-200 font-semibold text-gray-800 flex justify-between">
+      <p className="mt-3 flex justify-between border-t border-warm-200 pt-3 font-semibold text-ink">
         <span>Totalt</span>
-        <span className="text-accent">{formatPrice(totalCents)}</span>
+        <span className="text-earth">{formatPrice(totalCents)}</span>
       </p>
       <Link
         href="/kassa"
-        className="mt-3 block w-full rounded-lg bg-accent text-white py-2.5 text-center text-sm font-medium hover:bg-accent-dark transition-colors"
+        className="nm-btn mt-3 block w-full rounded-lg py-2.5 text-center text-sm font-medium transition-colors"
       >
         Till kassan
       </Link>

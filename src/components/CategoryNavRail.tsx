@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Vänster sidopanel (endast lg+): kategorilänkar i samma visuella språk som övriga sidan.
+ * Vänster sidopanel (endast lg+): kategorilänkar i samma visuella språk som showroom.
  * Mobil använder SiteHeader-hamburgaren.
  */
 
@@ -15,8 +15,8 @@ function linkClass(active: boolean) {
   return [
     "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors border",
     active
-      ? "bg-white text-accent border-warm-200 shadow-sm"
-      : "text-gray-700 border-transparent hover:bg-white/90 hover:border-warm-200/80 hover:text-gray-900",
+      ? "bg-[rgba(201,171,110,0.18)] text-[#f5f0e8] border-warm-300"
+      : "text-[#d4c8b0] border-transparent hover:bg-white/10 hover:text-[#f5f0e8]",
   ].join(" ");
 }
 
@@ -42,17 +42,17 @@ export function CategoryNavRail() {
 
   return (
     <aside
-      className="hidden lg:flex flex-col fixed left-0 top-0 z-20 h-svh w-56 border-r border-warm-200/90 bg-gradient-to-b from-warm-50 via-warm-50 to-warm-100 shadow-[4px_0_24px_-8px_rgba(0,0,0,0.08)]"
+      className="nm-panel fixed left-0 top-0 z-20 hidden h-svh w-56 flex-col border-r border-[rgba(201,171,110,0.35)] shadow-soft lg:flex"
       aria-label="Butiksmenyn"
     >
-      <div className="shrink-0 px-4 pt-5 pb-3 border-b border-warm-200/70">
-        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-gray-500">
+      <div className="shrink-0 border-b border-[rgba(201,171,110,0.35)] px-4 pb-3 pt-5">
+        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-warm-300">
           Utforska
         </p>
-        <p className="text-base font-semibold text-gray-800 mt-0.5">Sortiment</p>
+        <p className="mt-0.5 text-base font-semibold text-[#f5f0e8]">Sortiment</p>
       </div>
 
-      <nav className="flex-1 min-h-0 overflow-y-auto px-3 py-4" aria-label="Kategorier">
+      <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-4" aria-label="Kategorier">
         <ul className="space-y-1">
           <li>
             <Link href="/" className={linkClass(pathname === "/")}>
@@ -77,11 +77,8 @@ export function CategoryNavRail() {
               </li>
             );
           })}
-          <li className="pt-2 mt-2 border-t border-warm-200/60">
-            <Link
-              href="/bestall"
-              className={linkClass(pathname === "/bestall")}
-            >
+          <li className="mt-2 border-t border-[rgba(201,171,110,0.35)] pt-2">
+            <Link href="/bestall" className={linkClass(pathname === "/bestall")}>
               Beställ steg för steg
             </Link>
           </li>

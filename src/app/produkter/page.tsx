@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ProductGrid } from "@/components/ProductGrid";
 import { CartSummary } from "@/components/CartSummary";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 type SearchParams = { kategori?: string };
 
@@ -51,6 +52,7 @@ export default async function ProdukterPage({
           </aside>
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

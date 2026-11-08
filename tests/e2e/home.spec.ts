@@ -9,8 +9,8 @@ test.describe("Startsida", () => {
   test("visar butikens namn och välkomsttext", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { name: /^nordic muslim$/i })).toBeVisible();
-    await expect(page.getByText(/baati · dirac · macwiis · khamis/i)).toBeVisible();
+    await expect(page.getByRole("img", { name: /^nordic muslim$/i }).first()).toBeVisible();
+    await expect(page.getByText(/abayas för vardag och fest/i)).toBeVisible();
     await expect(page.getByText(/välkommen/i)).toBeVisible();
     await expect(page.getByText(/nordic muslim samlar/i)).toBeVisible();
   });

@@ -15,44 +15,42 @@ export function ProductCard({ product }: { product: ProductDto }) {
   const { addItem } = useCart();
 
   return (
-    <article className="rounded-2xl bg-white border border-warm-200 shadow-card overflow-hidden flex flex-col">
-      <div className="relative aspect-[4/3] bg-warm-100">
+    <article className="flex flex-col overflow-hidden rounded-2xl border border-warm-300 bg-[#fffdf7] shadow-card transition hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(90,70,35,0.16)]">
+      <div className="relative flex h-[clamp(14rem,42vw,18rem)] items-center justify-center bg-warm-50 p-1.5">
         {product.imageUrl ? (
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
-            className="object-cover"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, 320px"
             unoptimized
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+          <div className="flex h-full w-full items-center justify-center text-sm text-ink-muted">
             Ingen bild
           </div>
         )}
         {!product.inStock && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="text-white font-medium">Slutsåld</span>
+          <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+            <span className="font-medium text-[#f5f0e8]">Slutsåld</span>
           </div>
         )}
       </div>
-      <div className="p-4 flex-1 flex flex-col">
-        <span className="text-xs font-medium text-earth uppercase tracking-wider">
+      <div className="flex flex-1 flex-col p-4">
+        <span className="text-xs font-medium uppercase tracking-wider text-earth">
           {product.category.name}
         </span>
-        <h3 className="font-semibold text-gray-800 mt-1">{product.name}</h3>
+        <h3 className="mt-1 text-[0.95rem] font-semibold text-earth-dark">{product.name}</h3>
         {product.description && (
-          <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-            {product.description}
-          </p>
+          <p className="mt-1 line-clamp-2 text-sm text-ink-muted">{product.description}</p>
         )}
-        <p className="mt-2 font-bold text-accent">{formatPrice(product.priceCents)}</p>
+        <p className="mt-2 font-bold text-ink">{formatPrice(product.priceCents)}</p>
         <button
           type="button"
           onClick={() => addItem(product)}
           disabled={!product.inStock}
-          className="mt-4 w-full rounded-lg bg-accent text-white py-2.5 text-sm font-medium hover:bg-accent-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="nm-btn mt-4 w-full rounded-lg py-2.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50"
         >
           Lägg i varukorg
         </button>
