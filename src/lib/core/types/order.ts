@@ -1,5 +1,6 @@
 export interface OrderItemInput {
   productId: string;
+  productVariantId?: string | null;
   quantity: number;
   unitPriceCents: number;
 }

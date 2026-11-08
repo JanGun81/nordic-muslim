@@ -4,11 +4,11 @@
 
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { findVariant, variantPriceCents } from "@/lib/product-variant";
 
 function formatPrice(cents: number) {
   return new Intl.NumberFormat("sv-SE", {
@@ -18,12 +18,7 @@ function formatPrice(cents: number) {
 }
 
 export default function TackPage() {
-  const { lastOrder, clearLastOrder } = useCart();
-
-  useEffect(() => {
-    return () => clearLastOrder();
-  }, [clearLastOrder]);
-
+  const { lastOrder } = useCart();
   const order = lastOrder;
 
   return (
@@ -46,11 +41,18 @@ export default function TackPage() {
               <h2 className="font-semibold text-gray-800 mb-2">Beställt</h2>
               <p className="text-sm text-gray-600 mb-2">Ordernummer: {order.orderId}</p>
               <ul className="space-y-1 text-sm text-gray-700">
-                {order.items.map(({ product, quantity }) => (
-                  <li key={product.id}>
-                    {product.name} × {quantity} – {formatPrice(product.priceCents * quantity)}
-                  </li>
-                ))}
+                {order.items.map(({ product, quantity, variantId }) => {
+                  const variant = findVariant(product.variants, variantId);
+                  const label = variant?.color
+                    ? `${product.name} (${variant.color})`
+                    : product.name;
+                  return (
+                    <li key={`${product.id}:${variantId ?? ""}`}>
+                      {label} × {quantity} –{" "}
+                      {formatPrice(variantPriceCents(product, variant) * quantity)}
+                    </li>
+                  );
+                })}
               </ul>
               <p className="mt-2 pt-2 border-t border-warm-200 font-semibold text-gray-800">
                 Totalt: {formatPrice(order.totalCents)}

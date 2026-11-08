@@ -16,6 +16,7 @@ npm install
 # Kopiera miljövariabler och sätt DATABASE_URL
 cp .env.example .env
 # Redigera .env och ange din PostgreSQL-URL
+# Eller starta lokal Postgres: docker compose up -d
 
 # Skapa tabeller (utan migreringar)
 npm run db:push

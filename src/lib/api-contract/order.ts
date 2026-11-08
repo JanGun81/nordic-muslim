@@ -35,6 +35,10 @@ function validateItems(items: unknown, errors: string[]): OrderItemInput[] {
     ) {
       normalized.push({
         productId: row.productId,
+        productVariantId:
+          typeof row.productVariantId === "string" && row.productVariantId.trim().length > 0
+            ? row.productVariantId
+            : null,
         quantity: row.quantity,
         unitPriceCents: row.unitPriceCents,
       });

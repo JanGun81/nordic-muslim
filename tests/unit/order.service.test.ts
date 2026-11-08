@@ -17,6 +17,7 @@ const baseProduct: ProductWithCategory = {
   createdAt: new Date("2025-01-01"),
   updatedAt: new Date("2025-01-01"),
   category: { id: "cat-1", name: "Dirac", slug: "dirac" },
+  variants: [],
 };
 
 function createMocks(overrides?: {
@@ -146,6 +147,55 @@ describe("OrderService", () => {
     expect(result.ok).toBe(false);
     if (result.ok) return;
     expect(result.errors.join(" ")).toMatch(/priset|varukorgen/i);
+    expect(orderRepo.create).not.toHaveBeenCalled();
+  });
+
+  it("createOrder sparar productVariantId och variantpris", async () => {
+    const { productRepo, orderRepo } = createMocks({
+      product: {
+        variants: [
+          {
+            id: "var-1",
+            productId: "p1",
+            style: null,
+            color: "Grön",
+            size: null,
+            material: null,
+            sku: null,
+            priceCents: 31000,
+            imageUrl: "/images/abaya_green.jpg",
+            inStock: true,
+          },
+        ],
+      },
+    });
+    const service = new OrderService(productRepo, orderRepo);
+
+    const result = await service.createOrder({
+      ...validInput,
+      items: [{ productId: "p1", productVariantId: "var-1", quantity: 1, unitPriceCents: 31000 }],
+    });
+
+    expect(result.ok).toBe(true);
+    expect(orderRepo.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        items: [expect.objectContaining({ productVariantId: "var-1", unitPriceCents: 31000 })],
+      }),
+    );
+  });
+
+  it("createOrder underkänner okänd variant", async () => {
+    const { productRepo, orderRepo } = createMocks();
+    const service = new OrderService(productRepo, orderRepo);
+
+    const result = await service.createOrder({
+      ...validInput,
+      items: [{ productId: "p1", productVariantId: "saknas", quantity: 1, unitPriceCents: 29900 }],
+    });
+
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.errors.join(" ")).toMatch(/varianten hittades inte/i);
     expect(orderRepo.create).not.toHaveBeenCalled();
   });
 

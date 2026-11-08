@@ -38,8 +38,8 @@ Grovmalad backlogg för Epic B (ersätts eller bryts ned i mindre poster när du
 |----|-----------|-----|-------------|--------------|--------|
 | EA-001 | P1 | Backend | Lägg till Prisma-modeller för `Order` och `OrderItem` | Unit + API | done |
 | EA-002 | P1 | API | Skapa `POST /api/orders` via service/repository-lager | API + Unit | done |
-| EA-003 | P1 | Frontend | Koppla `/kassa` till order-API (ersätt demo-submit) | Unit + E2E | todo |
-| EA-004 | P1 | E2E | BDD-scenario: lyckad beställning från varukorg till tacksida | Playwright | todo |
+| EA-003 | P1 | Frontend | Koppla `/kassa` till order-API (ersätt demo-submit) | Unit + E2E | done |
+| EA-004 | P1 | E2E | BDD-scenario: lyckad beställning från varukorg till tacksida | Playwright | done |
 | EA-017 | P2 | Branding | **Nordic Muslim:** rubrik "Nordic Muslim", sortimentsrad "Baati · Dirac · Macwiis · Khamis · klänningar & mer" i header/metadata/manifest/PWA. Startsida (hero, footer, populära kategorier) och `demo-categories` justerade. README + `docs/CHANGELOG.md`. Kategorirail **vänster** (`lg:pl-56`). E2E `home.spec` följer ny copy. *Nästa steg:* seed/DB-kategorier i linje med nya chips. | E2E + manuell | done |
 
 ## Nästa iteration
@@ -55,15 +55,15 @@ Fokus efter P1-orderflödet: produktvyer **och** beställningswizarden på `/bes
 
 | ID | Prioritet | Typ | Beskrivning | Tester först | Status |
 |----|-----------|-----|-------------|--------------|--------|
-| EA-005 | P2 | Frontend | Produktdetaljsida `produkter/[slug]` | Unit + E2E | todo |
+| EA-005 | P2 | Frontend | Produktdetaljsida `produkter/[slug]` | Unit + E2E | done |
 | EA-016 | P2 | Frontend | **Kategorimeny / navigation (klar):** `GET /api/categories`, `CategoryService` + repository. **Mindre än lg:** hamburger i `SiteHeader` med kategorilänkar. **lg och uppåt:** **vänster** sidopanel (`CategoryNavRail`, varma toner) – `layout.tsx` reserverar `lg:pl-56` (uppdaterat i EA-017). Startsidans "Populära kategorier" länkar till `/produkter?kategori=`. | E2E + Unit | done |
-| EA-006 | P2 | API | `GET /api/products/[slug]` med DTO-kontrakt | API + Unit | todo |
+| EA-006 | P2 | API | `GET /api/products/[slug]` med DTO-kontrakt | API + Unit | done |
 | EA-007 | P2 | Frontend | **Kategorifilter (klar i grunden):** `ProductGrid` filtrerar på `?kategori=<slug>`; meny driver valet. Ev. komplettering: filterchips/rad på själva produktsidan senare. | E2E + Unit | done |
 | EA-008 | P2 | UX | Wizard **steg 1**: arrangemang (t.ex. Vardag, Festligt, Natt, Bön). Aktiv endast om kopplat utbud finns; annars utgråat + sekundärtext ("Kommer snart"). Produkt↔arrangemang i datamodell föreslås vid implementation. | E2E + Unit | todo |
 | EA-012 | P2 | UX | Wizard **steg 2**: dynamiska val utifrån **`ProductVariant`** – **stil** om tillgänglig (annars nästa dimension), **färg**, **storlek**, ev. **material**. Endast värden som faktiskt finns i utbud ska vara valbara; övriga utgråade enligt samma princip som steg 1. | E2E + Unit | todo |
 | EA-013 | P2 | UX | Wizard **avslut**: efter sista valet – lägg konfigurerad rad i **varukorg**, stäng/nollställ wizard, användaren till **början** av flödet. | E2E + Unit | todo |
 | EA-014 | P2 | UX | `/bestall` vid **helt tomt produktutbud**: visa **"Väntar på fler produkter"** + **Tillbaka** till `/` (startsida). Gäller när API/demo saknar alla produkter. | E2E | todo |
-| EA-015 | P2 | Backend | **`ProductVariant`**: rader per produkt med valfria fält `style`, `color`, `size`, `material` (+ valfri `sku`, eget `priceCents` eller ärvt från `Product`). **`OrderItem.productVariantId`** valfri FK för att låsa köpt variant. Nästa steg: seed, API för unika värden, koppling varukorg/wizard. | Unit + API | todo |
+| EA-015 | P2 | Backend | **`ProductVariant`**: rader per produkt med valfria fält `style`, `color`, `size`, `material`, `imageUrl` (+ valfri `sku`, eget `priceCents` eller ärvt från `Product`). **`OrderItem.productVariantId`** valfri FK för att låsa köpt variant. API, seed och varukorg kopplade; wizard återstår. | Unit + API | done |
 
 ## Senare
 

@@ -18,6 +18,7 @@ const product: ProductDto = {
   inStock: true,
   createdAt: "2026-01-01T00:00:00.000Z",
   updatedAt: "2026-01-01T00:00:00.000Z",
+  variants: [],
 };
 
 describe("buildCreateOrderInput", () => {
@@ -35,7 +36,39 @@ describe("buildCreateOrderInput", () => {
       customerEmail: "amina@example.com",
       customerAddress: "Exempelvägen 10, 12345 Uppsala",
       customerPhone: "0701234567",
-      items: [{ productId: "prod-1", quantity: 2, unitPriceCents: 34900 }],
+      items: [{ productId: "prod-1", productVariantId: null, quantity: 2, unitPriceCents: 34900 }],
+    });
+  });
+
+  it("mappar vald variant till productVariantId och variantpris", () => {
+    const withVariant: ProductDto = {
+      ...product,
+      variants: [
+        {
+          id: "var-1",
+          style: null,
+          color: "Grön",
+          size: null,
+          material: null,
+          sku: null,
+          priceCents: 40000,
+          imageUrl: "/images/abaya_green.jpg",
+          inStock: true,
+        },
+      ],
+    };
+    const input = buildCreateOrderInput({
+      customerName: "Amina",
+      customerEmail: "a@b.se",
+      customerAddress: "Gatan 1",
+      customerPhone: "",
+      items: [{ product: withVariant, quantity: 1, variantId: "var-1" }],
+    });
+    expect(input.items[0]).toEqual({
+      productId: "prod-1",
+      productVariantId: "var-1",
+      quantity: 1,
+      unitPriceCents: 40000,
     });
   });
 

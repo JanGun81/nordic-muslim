@@ -33,7 +33,7 @@ east-african-shop/
 ├── src/
 │   ├── app/                 # App Router: sidor + API
 │   │   ├── api/categories/  # GET /api/categories
-│   │   ├── api/products/    # GET /api/products
+│   │   ├── api/products/    # GET /api/products och GET /api/products/[slug]
 │   │   ├── bestall/         # Wizard (placeholder – ej byggd)
 │   │   ├── kassa/           # Gästkassa + tacksida
 │   │   ├── produkter/       # Produktlista med varukorg

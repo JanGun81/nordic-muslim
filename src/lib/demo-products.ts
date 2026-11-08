@@ -1,9 +1,12 @@
 /**
  * Demo-produkter – visas om API returnerar tom lista.
- * Bilder från showroom så utseendet matchar den statiska sidan.
+ * Bilder och färgvarianter från showroom.
  */
 
 import type { ProductDto } from "@/lib/api-contract/types";
+
+const now = "2026-01-01T00:00:00.000Z";
+const klanningar = { id: "cat-klanningar", name: "Klänningar", slug: "klanningar" };
 
 export const DEMO_PRODUCTS: ProductDto[] = [
   {
@@ -13,11 +16,46 @@ export const DEMO_PRODUCTS: ProductDto[] = [
     description: "Abaya Malaysia med över- och underdel.",
     priceCents: 60000,
     imageUrl: "/images/abaya_brun.jpg",
-    categoryId: "cat-klanningar",
-    category: { id: "cat-klanningar", name: "Klänningar", slug: "klanningar" },
+    categoryId: klanningar.id,
+    category: klanningar,
     inStock: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt: now,
+    updatedAt: now,
+    variants: [
+      {
+        id: "demo-1-brun",
+        style: null,
+        color: "Brun",
+        size: "54-58",
+        material: null,
+        sku: null,
+        priceCents: null,
+        imageUrl: "/images/abaya_brun.jpg",
+        inStock: true,
+      },
+      {
+        id: "demo-1-gron",
+        style: null,
+        color: "Grön",
+        size: "54-58",
+        material: null,
+        sku: null,
+        priceCents: null,
+        imageUrl: "/images/abaya_green.jpg",
+        inStock: true,
+      },
+      {
+        id: "demo-1-lila",
+        style: null,
+        color: "Lila",
+        size: "54-58",
+        material: null,
+        sku: null,
+        priceCents: null,
+        imageUrl: "/images/abaya_purple.jpg",
+        inStock: true,
+      },
+    ],
   },
   {
     id: "demo-2",
@@ -26,11 +64,35 @@ export const DEMO_PRODUCTS: ProductDto[] = [
     description: "Abaya öppen, lövdekoration.",
     priceCents: 60000,
     imageUrl: "/images/abaya_beige_dekor.jpg",
-    categoryId: "cat-klanningar",
-    category: { id: "cat-klanningar", name: "Klänningar", slug: "klanningar" },
+    categoryId: klanningar.id,
+    category: klanningar,
     inStock: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt: now,
+    updatedAt: now,
+    variants: [
+      {
+        id: "demo-2-beige",
+        style: null,
+        color: "Beige",
+        size: "54-58",
+        material: null,
+        sku: null,
+        priceCents: null,
+        imageUrl: "/images/abaya_beige_dekor.jpg",
+        inStock: true,
+      },
+      {
+        id: "demo-2-rosa",
+        style: null,
+        color: "Rosa",
+        size: "54-58",
+        material: null,
+        sku: null,
+        priceCents: null,
+        imageUrl: "/images/abaya_pink_dekor.jpg",
+        inStock: true,
+      },
+    ],
   },
   {
     id: "demo-3",
@@ -39,10 +101,34 @@ export const DEMO_PRODUCTS: ProductDto[] = [
     description: "Abaya blomsterdekor.",
     priceCents: 60000,
     imageUrl: "/images/abaya_green_blomst_dekor.jpg",
-    categoryId: "cat-klanningar",
-    category: { id: "cat-klanningar", name: "Klänningar", slug: "klanningar" },
+    categoryId: klanningar.id,
+    category: klanningar,
     inStock: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt: now,
+    updatedAt: now,
+    variants: [
+      {
+        id: "demo-3-gron",
+        style: null,
+        color: "Grön",
+        size: "54-58",
+        material: null,
+        sku: null,
+        priceCents: null,
+        imageUrl: "/images/abaya_green_blomst_dekor.jpg",
+        inStock: true,
+      },
+      {
+        id: "demo-3-morkbla",
+        style: null,
+        color: "Mörkblå",
+        size: "54-58",
+        material: null,
+        sku: null,
+        priceCents: null,
+        imageUrl: "/images/abaya_dark_blue_blomst_dekor.jpg",
+        inStock: true,
+      },
+    ],
   },
 ];

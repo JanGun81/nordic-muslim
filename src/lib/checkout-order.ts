@@ -5,10 +5,12 @@
 
 import type { CreateOrderInput } from "@/lib/core/types/order";
 import type { CreatedOrderDto, CreateOrderErrorBody, CreateOrderResponse, ProductDto } from "@/lib/api-contract/types";
+import { findVariant, variantPriceCents } from "@/lib/product-variant";
 
 export interface CheckoutCartItem {
   product: ProductDto;
   quantity: number;
+  variantId?: string | null;
 }
 
 export type PostCreateOrderResult =
@@ -31,11 +33,15 @@ export function buildCreateOrderInput(params: {
     customerEmail: params.customerEmail.trim(),
     customerAddress: params.customerAddress.trim(),
     customerPhone: phone.length > 0 ? phone : null,
-    items: params.items.map(({ product, quantity }) => ({
-      productId: product.id,
-      quantity,
-      unitPriceCents: product.priceCents,
-    })),
+    items: params.items.map(({ product, quantity, variantId }) => {
+      const variant = findVariant(product.variants, variantId);
+      return {
+        productId: product.id,
+        productVariantId: variant?.id ?? null,
+        quantity,
+        unitPriceCents: variantPriceCents(product, variant),
+      };
+    }),
   };
 }
 

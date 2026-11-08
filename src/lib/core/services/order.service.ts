@@ -45,11 +45,25 @@ export class OrderService {
         errors.push(`Produkten hittades inte: ${line.productId}.`);
         continue;
       }
-      if (!product.inStock) {
+
+      const variantId = line.productVariantId ?? null;
+      const variant = variantId
+        ? product.variants.find((v) => v.id === variantId) ?? null
+        : null;
+
+      if (variantId && !variant) {
+        errors.push(`Varianten hittades inte: ${variantId}.`);
+        continue;
+      }
+
+      const inStock = variant ? variant.inStock : product.inStock;
+      if (!inStock) {
         errors.push(`Produkten är slut i lager: ${product.name}.`);
         continue;
       }
-      if (line.unitPriceCents !== product.priceCents) {
+
+      const expectedPrice = variant?.priceCents ?? product.priceCents;
+      if (line.unitPriceCents !== expectedPrice) {
         errors.push(
           `Priset för "${product.name}" stämmer inte längre. Uppdatera varukorgen och försök igen.`,
         );
@@ -57,8 +71,9 @@ export class OrderService {
       }
       resolvedLines.push({
         productId: line.productId,
+        productVariantId: variant ? variant.id : null,
         quantity: line.quantity,
-        unitPriceCents: product.priceCents,
+        unitPriceCents: expectedPrice,
       });
     }
 
@@ -85,7 +100,7 @@ export class OrderService {
       totalCents,
       items: resolvedLines.map((line) => ({
         productId: line.productId,
-        productVariantId: null,
+        productVariantId: line.productVariantId ?? null,
         quantity: line.quantity,
         unitPriceCents: line.unitPriceCents,
       })),

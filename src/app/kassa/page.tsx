@@ -12,6 +12,7 @@ import { CartSummary } from "@/components/CartSummary";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { buildCreateOrderInput, postCreateOrder } from "@/lib/checkout-order";
+import { findVariant, variantPriceCents } from "@/lib/product-variant";
 import { useState, FormEvent } from "react";
 
 function formatPrice(cents: number) {
@@ -57,7 +58,7 @@ export default function KassaPage() {
     router.push("/kassa/tack");
   };
 
-  if (itemCount === 0 && items.length === 0) {
+  if (itemCount === 0 && items.length === 0 && !submitting) {
     return (
       <div className="min-h-screen flex flex-col">
         <SiteHeader
@@ -156,11 +157,18 @@ export default function KassaPage() {
             <div className="rounded-xl bg-warm-50 border border-warm-200 p-4">
               <h3 className="font-semibold text-gray-800 mb-2">Din beställning</h3>
               <ul className="space-y-1 text-sm text-gray-700">
-                {items.map(({ product, quantity }) => (
-                  <li key={product.id}>
-                    {product.name} × {quantity} – {formatPrice(product.priceCents * quantity)}
-                  </li>
-                ))}
+                {items.map(({ product, quantity, variantId }) => {
+                  const variant = findVariant(product.variants, variantId);
+                  const label = variant?.color
+                    ? `${product.name} (${variant.color})`
+                    : product.name;
+                  return (
+                    <li key={`${product.id}:${variantId ?? ""}`}>
+                      {label} × {quantity} –{" "}
+                      {formatPrice(variantPriceCents(product, variant) * quantity)}
+                    </li>
+                  );
+                })}
               </ul>
               <p className="mt-2 pt-2 border-t border-warm-200 font-semibold text-gray-800">
                 Totalt: {formatPrice(totalCents)}

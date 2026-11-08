@@ -2,6 +2,22 @@
 
 Kort logg över relevanta produkt-/varumärkes- och UI-ändringar (ej full git-historik).
 
+## 2026-11-08
+
+### Order och kassa
+
+- **EA-003 / EA-004:** kassan postar till `POST /api/orders`, visar fel och ordernummer. E2E från varukorg till tacksida.
+
+### Produkt och varianter
+
+- **EA-006:** `GET /api/products/[slug]` med DTO (inkl. `variants`), fallback till demo.
+- **EA-005:** produktdetalj `/produkter/[slug]` med färgval, zoom och lägg i varukorg.
+- **EA-015:** `ProductVariant.imageUrl`, varianter i API/seed/demo, `productVariantId` i varukorg och order.
+
+### Drift
+
+- `docker-compose.yml` för lokal Postgres (`user`/`password`/`east_african_shop` på port 5432).
+
 ## 2026-05-11
 
 ### Varumärke och synlig text (Nordic Muslim)

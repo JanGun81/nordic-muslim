@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
+import { findVariant, variantPriceCents } from "@/lib/product-variant";
 
 function formatPrice(cents: number) {
   return new Intl.NumberFormat("sv-SE", {
@@ -23,24 +24,31 @@ export function CartSummary() {
         Varukorg ({itemCount} {itemCount === 1 ? "produkt" : "produkter"})
       </h3>
       <ul className="space-y-2 text-sm">
-        {items.map(({ product, quantity }) => (
-          <li key={product.id} className="flex justify-between items-center gap-2">
-            <span className="text-gray-700 truncate">
-              {product.name} × {quantity}
-            </span>
-            <span className="text-earth font-medium shrink-0">
-              {formatPrice(product.priceCents * quantity)}
-            </span>
-            <button
-              type="button"
-              onClick={() => removeItem(product.id)}
-              className="text-ink-muted hover:text-earth text-xs shrink-0"
-              aria-label={`Ta bort ${product.name}`}
+        {items.map(({ product, quantity, variantId }) => {
+          const variant = findVariant(product.variants, variantId);
+          const label = variant?.color ? `${product.name} (${variant.color})` : product.name;
+          return (
+            <li
+              key={`${product.id}:${variantId ?? ""}`}
+              className="flex justify-between items-center gap-2"
             >
-              Ta bort
-            </button>
-          </li>
-        ))}
+              <span className="text-gray-700 truncate">
+                {label} × {quantity}
+              </span>
+              <span className="text-earth font-medium shrink-0">
+                {formatPrice(variantPriceCents(product, variant) * quantity)}
+              </span>
+              <button
+                type="button"
+                onClick={() => removeItem(product.id, variantId)}
+                className="text-ink-muted hover:text-earth text-xs shrink-0"
+                aria-label={`Ta bort ${label}`}
+              >
+                Ta bort
+              </button>
+            </li>
+          );
+        })}
       </ul>
       <p className="mt-3 flex justify-between border-t border-warm-200 pt-3 font-semibold text-ink">
         <span>Totalt</span>

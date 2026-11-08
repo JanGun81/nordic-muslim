@@ -12,6 +12,24 @@ describe("Order API validation", () => {
     });
 
     expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.items[0].productVariantId).toBeNull();
+    }
+  });
+
+  it("behåller productVariantId på orderrad", () => {
+    const result = validateCreateOrderRequest({
+      customerName: "Amina Noor",
+      customerEmail: "amina@example.com",
+      customerAddress: "Exempelvagen 10, 12345 Uppsala",
+      customerPhone: "0701234567",
+      items: [{ productId: "p1", productVariantId: "var-9", quantity: 1, unitPriceCents: 29900 }],
+    });
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.items[0].productVariantId).toBe("var-9");
+    }
   });
 
   it("underkanner payload utan items", () => {

@@ -5,9 +5,40 @@
 
 import { prisma } from "@/lib/db";
 import type { IProductRepository } from "./product.repository";
-import type { ProductWithCategory } from "@/lib/core/types/product";
+import type { ProductVariant, ProductWithCategory } from "@/lib/core/types/product";
 
 const categorySelect = { id: true, name: true, slug: true } as const;
+
+const includeProduct = {
+  category: { select: categorySelect },
+  variants: { orderBy: { color: "asc" as const } },
+};
+
+function mapVariant(row: {
+  id: string;
+  productId: string;
+  style: string | null;
+  color: string | null;
+  size: string | null;
+  material: string | null;
+  sku: string | null;
+  priceCents: number | null;
+  imageUrl: string | null;
+  inStock: boolean;
+}): ProductVariant {
+  return {
+    id: row.id,
+    productId: row.productId,
+    style: row.style,
+    color: row.color,
+    size: row.size,
+    material: row.material,
+    sku: row.sku,
+    priceCents: row.priceCents,
+    imageUrl: row.imageUrl,
+    inStock: row.inStock,
+  };
+}
 
 function mapRow(row: {
   id: string;
@@ -21,6 +52,7 @@ function mapRow(row: {
   createdAt: Date;
   updatedAt: Date;
   category: { id: string; name: string; slug: string };
+  variants: Parameters<typeof mapVariant>[0][];
 }): ProductWithCategory {
   return {
     id: row.id,
@@ -34,13 +66,14 @@ function mapRow(row: {
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
     category: { id: row.category.id, name: row.category.name, slug: row.category.slug },
+    variants: row.variants.map(mapVariant),
   };
 }
 
 export class PrismaProductRepository implements IProductRepository {
   async findAll(): Promise<ProductWithCategory[]> {
     const rows = await prisma.product.findMany({
-      include: { category: { select: categorySelect } },
+      include: includeProduct,
       orderBy: { createdAt: "desc" },
     });
     return rows.map(mapRow);
@@ -49,7 +82,7 @@ export class PrismaProductRepository implements IProductRepository {
   async findById(id: string): Promise<ProductWithCategory | null> {
     const row = await prisma.product.findUnique({
       where: { id },
-      include: { category: { select: categorySelect } },
+      include: includeProduct,
     });
     return row ? mapRow(row) : null;
   }
@@ -57,7 +90,7 @@ export class PrismaProductRepository implements IProductRepository {
   async findBySlug(slug: string): Promise<ProductWithCategory | null> {
     const row = await prisma.product.findUnique({
       where: { slug },
-      include: { category: { select: categorySelect } },
+      include: includeProduct,
     });
     return row ? mapRow(row) : null;
   }
@@ -65,7 +98,7 @@ export class PrismaProductRepository implements IProductRepository {
   async findByCategoryId(categoryId: string): Promise<ProductWithCategory[]> {
     const rows = await prisma.product.findMany({
       where: { categoryId },
-      include: { category: { select: categorySelect } },
+      include: includeProduct,
       orderBy: { name: "asc" },
     });
     return rows.map(mapRow);

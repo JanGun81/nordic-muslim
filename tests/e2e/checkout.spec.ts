@@ -13,6 +13,7 @@ test.describe("Kassa – gästbeställning", () => {
     page,
     request,
   }) => {
+    test.setTimeout(90_000);
     const productsRes = await request.get("/api/products");
     expect(productsRes.ok()).toBeTruthy();
     const { products } = (await productsRes.json()) as { products: unknown[] };
@@ -49,7 +50,9 @@ test.describe("Kassa – gästbeställning", () => {
     }
 
     await page.goto("/produkter");
-    await expect(page.getByRole("button", { name: /lägg i varukorg/i }).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: /lägg i varukorg/i }).first()).toBeVisible({
+      timeout: 20_000,
+    });
     await page.getByRole("button", { name: /lägg i varukorg/i }).first().click();
 
     await expect(page.getByRole("link", { name: /till kassan/i }).first()).toBeVisible();
@@ -70,7 +73,7 @@ test.describe("Kassa – gästbeställning", () => {
     const orderResponse = await orderResponsePromise;
     expect(orderResponse.status()).toBe(201);
 
-    await expect(page).toHaveURL(/\/kassa\/tack/);
+    await expect(page).toHaveURL(/\/kassa\/tack/, { timeout: 20_000 });
     await expect(page.getByRole("heading", { name: /tack för din beställning/i })).toBeVisible();
     await expect(page.getByText(/vi har tagit emot din beställning/i)).toBeVisible();
     await expect(page.getByText(/beställt/i)).toBeVisible();

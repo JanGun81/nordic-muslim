@@ -20,6 +20,7 @@ const mockProduct: ProductWithCategory = {
   createdAt: new Date("2025-01-01"),
   updatedAt: new Date("2025-01-01"),
   category: { id: "cat-1", name: "Dirac", slug: "dirac" },
+  variants: [],
 };
 
 function createMockRepo(): IProductRepository {
@@ -55,6 +56,15 @@ describe("ProductService", () => {
     vi.mocked(repo.findById).mockResolvedValueOnce(null);
     const notFound = await service.getProductById("none");
     expect(notFound).toBeNull();
+  });
+
+  it("getProductBySlug returnerar produkt via repository", async () => {
+    const repo = createMockRepo();
+    const service = new ProductService(repo);
+
+    const found = await service.getProductBySlug("test-dirac");
+    expect(repo.findBySlug).toHaveBeenCalledWith("test-dirac");
+    expect(found?.name).toBe("Test Dirac");
   });
 
   it("getProductsByCategory anropar repository med categoryId", async () => {

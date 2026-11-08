@@ -9,6 +9,18 @@ export interface ProductCategoryDto {
   slug: string;
 }
 
+export interface ProductVariantDto {
+  id: string;
+  style: string | null;
+  color: string | null;
+  size: string | null;
+  material: string | null;
+  sku: string | null;
+  priceCents: number | null;
+  imageUrl: string | null;
+  inStock: boolean;
+}
+
 export interface ProductDto {
   id: string;
   name: string;
@@ -21,6 +33,7 @@ export interface ProductDto {
   inStock: boolean;
   createdAt: string; // ISO
   updatedAt: string;
+  variants?: ProductVariantDto[];
 }
 
 export interface ProductsResponse {

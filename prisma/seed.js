@@ -1,5 +1,5 @@
 /**
- * Seed – 2–3 exempelprodukter med bilder (Unsplash, fri användning).
+ * Seed – kategorier, abaya-produkter och färgvarianter.
  * Kör: npx prisma db seed (eller node prisma/seed.js efter db push)
  */
 const { PrismaClient } = require("@prisma/client");
@@ -8,33 +8,46 @@ const prisma = new PrismaClient();
 const categories = [
   { name: "Dirac", slug: "dirac", description: "Somaliska dirac – vardag och fest" },
   { name: "Baatis", slug: "baatis", description: "Baatis och traditionella plagg" },
-  { name: "Unsi", slug: "unsi", description: "Rökelse, dofter och tillbehör" },
+  { name: "Klänningar", slug: "klanningar", description: "Abayas och klänningar" },
 ];
 
 const products = [
   {
-    name: "Dirac – färgstark",
-    slug: "dirac-fargstark",
-    description: "Klassiskt dirac i starka färger, bekvämt och snyggt för vardag och tillfällen.",
-    priceCents: 34900,
-    categorySlug: "dirac",
-    imageUrl: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80",
+    name: "Typ 1: Abaya malaysian",
+    slug: "abaya-malaysian",
+    description: "Abaya Malaysia med över- och underdel.",
+    priceCents: 60000,
+    categorySlug: "klanningar",
+    imageUrl: "/images/abaya_brun.jpg",
+    variants: [
+      { color: "Brun", size: "54-58", imageUrl: "/images/abaya_brun.jpg" },
+      { color: "Grön", size: "54-58", imageUrl: "/images/abaya_green.jpg" },
+      { color: "Lila", size: "54-58", imageUrl: "/images/abaya_purple.jpg" },
+    ],
   },
   {
-    name: "Baatis – enkel modell",
-    slug: "baatis-enkel",
-    description: "Enkel och snygg baatis, lätt att kombinera. Tillgänglig i flera färger.",
-    priceCents: 27900,
-    categorySlug: "baatis",
-    imageUrl: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80",
+    name: "Typ 2: Abaya lövdekor",
+    slug: "abaya-lovdekor",
+    description: "Abaya öppen, lövdekoration.",
+    priceCents: 60000,
+    categorySlug: "klanningar",
+    imageUrl: "/images/abaya_beige_dekor.jpg",
+    variants: [
+      { color: "Beige", size: "54-58", imageUrl: "/images/abaya_beige_dekor.jpg" },
+      { color: "Rosa", size: "54-58", imageUrl: "/images/abaya_pink_dekor.jpg" },
+    ],
   },
   {
-    name: "Unsi – naturrökelse",
-    slug: "unsi-naturrokelse",
-    description: "Äkta unsi (rökelse) för hemmet. Varm, behaglig doft.",
-    priceCents: 12900,
-    categorySlug: "unsi",
-    imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80",
+    name: "Typ 3: Abaya blomsterdekor",
+    slug: "abaya-blomsterdekor",
+    description: "Abaya blomsterdekor.",
+    priceCents: 60000,
+    categorySlug: "klanningar",
+    imageUrl: "/images/abaya_green_blomst_dekor.jpg",
+    variants: [
+      { color: "Grön", size: "54-58", imageUrl: "/images/abaya_green_blomst_dekor.jpg" },
+      { color: "Mörkblå", size: "54-58", imageUrl: "/images/abaya_dark_blue_blomst_dekor.jpg" },
+    ],
   },
 ];
 
@@ -49,7 +62,7 @@ async function main() {
   }
   for (const p of products) {
     const cat = created[p.categorySlug];
-    await prisma.product.upsert({
+    const product = await prisma.product.upsert({
       where: { slug: p.slug },
       create: {
         name: p.name,
@@ -64,10 +77,22 @@ async function main() {
         description: p.description,
         priceCents: p.priceCents,
         imageUrl: p.imageUrl,
+        categoryId: cat.id,
       },
     });
+    await prisma.productVariant.deleteMany({ where: { productId: product.id } });
+    for (const v of p.variants) {
+      await prisma.productVariant.create({
+        data: {
+          productId: product.id,
+          color: v.color,
+          size: v.size,
+          imageUrl: v.imageUrl,
+        },
+      });
+    }
   }
-  console.log("Seed klar: kategorier och 3 produkter skapade/uppdaterade.");
+  console.log("Seed klar: kategorier, 3 abayas och färgvarianter.");
 }
 
 main()

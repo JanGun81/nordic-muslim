@@ -6,15 +6,8 @@
 import { NextResponse } from "next/server";
 import { productService } from "@/lib/core/services";
 import type { ProductWithCategory } from "@/lib/core/types/product";
-import type { ProductDto, ProductsResponse } from "@/lib/api-contract/types";
-
-function toDto(p: ProductWithCategory): ProductDto {
-  return {
-    ...p,
-    createdAt: p.createdAt.toISOString(),
-    updatedAt: p.updatedAt.toISOString(),
-  };
-}
+import type { ProductsResponse } from "@/lib/api-contract/types";
+import { toProductDto } from "@/lib/product-dto";
 
 export async function GET() {
   let products: ProductWithCategory[] = [];
@@ -25,7 +18,7 @@ export async function GET() {
   }
   try {
     const response: ProductsResponse = {
-      products: products.map(toDto),
+      products: products.map(toProductDto),
     };
     return NextResponse.json(response);
   } catch {
